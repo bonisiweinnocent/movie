@@ -11,31 +11,71 @@
 <body>
   <div id="app">
 
-    <div class="contain">
-      <div class="all">
-        <div class="div">
-          <h2>Signup</h2>
-          <input type="user" placeholder="enter email">
-          <input type="password" placeholder="password">
-          <input type="submit">
-        </div>
+    <div x-data="users" class="app">
 
-        <div class="div">
-          <h2>Login</h2>
-          <input type="user" placeholder="enter email">
-          <input type="password" placeholder="password">
-          <!-- <input type="submit"></span> -->
-        </div>
 
+      <div class="contain">
+        <div class="all">
+          <div class="div">
+            <h2>Signup</h2>
+            <input type="user" x-model="signup.name" placeholder="name here">
+            <input type="user" x-model="signup.surname" placeholder="last name">
+            <input type="user" x-model="signup.username" placeholder="username">
+            <input type="password" x-model="signup.password" placeholder="password">
+            <input type="submit" @click="registerUser()">
+          </div>
+
+          <div class="div">
+            <h2>Login</h2>
+
+            <input type="user" x-model="login.username" placeholder="username">
+
+            <input type="password" x-model="login.password" placeholder="password">
+            <input type="submit" @click="loginUser()">
+
+          </div>
+        </div>
       </div>
     </div>
 
 
+    <!-- movie list -->
+
+
+    <div x-data="movies" class="app">
+      <div x-text="movie_name" ></div>
+
+      <div>
+      
+        <div class="">
+          <input type="search" placeholder="search here" x-model="movie_name">
+
+
+          <input type="submit" class="all" @click="movieList()">
+        </div>
+      </div>
 
 
 
+      <div class="display">
+        <template x-for="movie in movies">
+          <div>
 
+            <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" width="150" />
+            <p x-text="movie.title"></p>
+            <p x-text="movie.overview"></p>
+
+        
+            <button x-on:click="addFavouriteMovie(movie)" >Add to playlist</button>
+
+          </div>
+
+        </template>
+      </div>
+    </div>
   </div>
+
+
   <script type="module" src="/main.js"></script>
 </body>
 
