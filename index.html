@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.17e50649.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+  <script type="module" crossorigin src="/assets/index.c29abf2d.js"></script>
+  <link rel="stylesheet" href="/assets/index.f454d4af.css">
+</head>
+
+<body>
+  <div x-data="users" id="app">
+
+    <div class="app" x-show="!show">
+
+
+      <div class="contain">
+        <div class="all">
+          <div class="div">
+            <h2>Signup</h2>
+            <input type="user" x-model="signup.name" placeholder="name here">
+            <input type="user" x-model="signup.surname" placeholder="last name">
+            <input type="user" x-model="signup.username" placeholder="username">
+            <input type="password" x-model="signup.password" placeholder="password">
+            <input type="submit" @click="registerUser()">
+          </div>
+
+          <div class="div">
+            <h2>Login</h2>
+
+            <input type="user" x-model="login.username" placeholder="username">
+
+            <input type="password" x-model="login.password" placeholder="password">
+            <input type="submit" @click="signIn()">
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- movie list -->
+    <br>
+    <div x-show="show">
+      <div class="app">
+        <span>
+          <button @click="logout()">logout</button>
+        </span>
+        <div x-text="movie_name"></div>
+
+        <div>
+
+          <div class="">
+            <input type="search" placeholder="search here" x-model="movie_name">
+
+
+            <input type="submit" class="all" @click="movieList()">
+          </div>
+        </div>
+
+        <br>
+        <!-- <h4 class="big">Most Popular!</h4> -->
+        <div class="display">
+          <template x-for="movie in movies">
+            <div>
+              <strong class="big">
+                <p x-text="movie.title">r</p>
+              </strong>
+              <p x-text="movie.overview"></p>
+
+
+              <button x-on:click="addFavouriteMovie(movie)">Add to playlist</button>
+              <br>
+              <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" width="150" />
+
+
+
+
+
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  
+</body>
+
+</html>
