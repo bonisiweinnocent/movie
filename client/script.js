@@ -1,16 +1,19 @@
-
+import axios from 'axios'
 export default function authentication() {
 
     return {
-        // init() {
-        // },
-    
+
+
+
+
+
+
         store: [],
         login: {
-           
-            username: "",
-            password: ""
-        
+
+            username: "jsmith",
+            password: "password"
+
         },
         show: false,
         msg: "You have successfully signed up!",
@@ -20,55 +23,144 @@ export default function authentication() {
             surname: "",
             username: "",
             password: ""
-        
-        },
-        
-        registerUser() {
-            fetch(`http://localhost:2012/auth/signup`, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: JSON.stringify(this.signup)
 
-            })
-                .then(r => r.json())
+        },
+        init() {
+            this.showMovies()
+            console.log(this.movies);
+        },
+        movies: [],
+        msg: "Added to your favourites",
+
+        movie_name: "",
+
+
+
+        registerUser() {
+            // let apiURL = this.url
+
+            // console.log(this.signup, 'sign-up');
+            axios
+                .post(`http://localhost:2012/auth/signup`, this.signup)
+
+                // .then(r => r.json())
                 .then(usersData => {
                     console.log(usersData)
                     this.store = usersData.data
-                    this.msg
                 })
                 .catch(e => console.log(e))
 
         },
 
-        loginUser() {
-            fetch(`http://localhost:2012/auth/login`, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'post',
-                body: JSON.stringify(this.login)
+        signIn() {
+            console.log('logging in', this.login)
+            axios
+            .post(`http://localhost:2012/auth/login`, this.login)
 
+            // .then(r => r.json())
+            .then(usersData => {
+                console.log(usersData)
+                this.store = usersData.data
+                this.show = true
             })
-                .then(r => r.json())
-                .then(usersData => {
-                    console.log(usersData);
-                    // if(usersData.message == 'you have logged in') {
-                        // this.show = true;
-                        this.store = usersData.data
-                        // this.message
+            .catch(e => console.log(e))
 
-                    // }
+        },
+        showMovies() {
+            axios
+                .get(`http://api.themoviedb.org/3/discover/movie?api_key=7e719bfe3cd3786ebf0a05d3b138853d&sort_by=popularity.desc`)
+                .then((result) => {
+
+
+                    this.movies = result.data.results
+                    console.log(this.movies);
+
                 })
-                .catch(e => console.log(e))
+                .catch(err => {
+                    console.log(err);
+                })
 
+        },
+
+        addFavouriteMovie(movie) {
+            const url = `http://localhost:2012/auth/playlist`
+
+            axios
+                .post(`${url}/${movie.id}`, {
+                    // user_id: 25
+                })
+                .then((result) => {
+                    console.log(result.data.results);
+                    this.movies = result.data.results
+                })
+
+                .catch(err => {
+                    console.log(err + "Is found here");
+                })
+
+        },
+        movieList() {
+            const movieTopic = this.movie_name;
+            axios
+                .get(`http://api.themoviedb.org/3/search/movie?api_key=7e719bfe3cd3786ebf0a05d3b138853d&query=${movieTopic}`)
+                .then((result) => {
+
+                    console.log(result.data.results);
+                    this.movies = result.data.results
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+        },
+
+       logout(){
+            // local storage - token
+            this.show = false;
+       },
+
+        addFavouriteMovie(movie) {
+            const url = `http://localhost:2012/auth/playlist`
+
+            axios
+                .post(`${url}/${movie.id}`, {
+                    // user_id: 25
+                })
+                .then((result) => {
+                    console.log(result.data.results);
+                    this.movies = result.data.results
+                })
+
+                .catch(err => {
+                    console.log(err + "Is found here");
+                })
+
+        },
+        movieList() {
+            const movieTopic = this.movie_name;
+            axios
+                .get(`http://api.themoviedb.org/3/search/movie?api_key=7e719bfe3cd3786ebf0a05d3b138853d&query=${movieTopic}`)
+                .then((result) => {
+
+                    console.log(result.data.results);
+                    this.movies = result.data.results
+
+                })
+                .catch(err => {
+                    console.log(err);
+                })
         }
 
-       
+
 
     }
 
+
+
 }
+
+
+
+
 
 

@@ -9,12 +9,12 @@ import 'cors'
 
 
 import Authentication from './script'
-import UserPlayList from './movieRouter'
+// import UserPlayList from './script'
 
 
 Alpine.plugin(persist)
 
 
 Alpine.data('users', Authentication)
-Alpine.data('movies', UserPlayList)
+// Alpine.data('movies', UserPlayList)
 Alpine.start()

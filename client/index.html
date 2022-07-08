@@ -9,9 +9,9 @@
 </head>
 
 <body>
-  <div id="app">
+  <div x-data="users" id="app">
 
-    <div x-data="users" class="app">
+    <div class="app" x-show="!show">
 
 
       <div class="contain">
@@ -31,7 +31,7 @@
             <input type="user" x-model="login.username" placeholder="username">
 
             <input type="password" x-model="login.password" placeholder="password">
-            <input type="submit" @click="loginUser()">
+            <input type="submit" @click="signIn()">
 
           </div>
         </div>
@@ -40,42 +40,50 @@
 
 
     <!-- movie list -->
+    <br>
+    <div x-show="show">
+      <div class="app">
+        <span>
+          <button @click="logout()">logout</button>
+        </span>
+        <div x-text="movie_name"></div>
+
+        <div>
+
+          <div class="">
+            <input type="search" placeholder="search here" x-model="movie_name">
 
 
-    <div x-data="movies" class="app">
-      <div x-text="movie_name" ></div>
+            <input type="submit" class="all" @click="movieList()">
+          </div>
+        </div>
 
-      <div>
-      
-        <div class="">
-          <input type="search" placeholder="search here" x-model="movie_name">
+        <br>
+        <!-- <h4 class="big">Most Popular!</h4> -->
+        <div class="display">
+          <template x-for="movie in movies">
+            <div>
+              <strong class="big">
+                <p x-text="movie.title">r</p>
+              </strong>
+              <p x-text="movie.overview"></p>
 
 
-          <input type="submit" class="all" @click="movieList()">
+              <button x-on:click="addFavouriteMovie(movie)">Add to playlist</button>
+              <br>
+              <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" width="150" />
+
+
+
+
+
+            </div>
+          </template>
         </div>
       </div>
-
-
-
-      <div class="display">
-        <template x-for="movie in movies">
-          <div>
-
-            <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" width="150" />
-            <p x-text="movie.title"></p>
-            <p x-text="movie.overview"></p>
-
-        
-            <button x-on:click="addFavouriteMovie(movie)" >Add to playlist</button>
-
-          </div>
-
-        </template>
-      </div>
     </div>
+
   </div>
-
-
   <script type="module" src="/main.js"></script>
 </body>
 
